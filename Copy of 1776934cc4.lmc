@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">  
+	<file original="" source-language="en" target-language="es" datatype="plaintext" category="general" tool="Localisation Knowledge Repository">  
+		<header>  
+			<phase-group>  
+				<phase phase-name="Quality Assurance" company-name="Eoin Company" process-name="authoring" contact-name="Eoin O Conchuir" contact-email="eoin.oconchuir@ul.ie" job-id="217" tool-id="LKR"/>  
+			</phase-group>  
+			<tool tool-name="LKR" tool-id="LKR" tool-version="v1"/>
+				<reference>
+		<internal-file>
+			<pmui-data pname="Eoin's Test Project" pdescription="Uploading this test file to see how it goes through the LKR." startdate="08/23/2010" deadline="08/30/2010" budget="1000000" qrequirement="HIGH" use-mt="NO" use-rating="NO"/>
+        </internal-file>
+       </reference>  
+			<note/>  
+		<reference><internal-file form="text"><wf><task name="GS" order="1"/></wf></internal-file></reference></header>  
+		<body>  
+			<group>  
+				<count-group name="word_count">  
+					<count count-type="total" unit="word">40</count>  
+				</count-group>  
+				<count-group name="segment_count">  
+					<count count-type="total" unit="segment">6</count>  
+				</count-group>  
+				<count-group name="character_count">  
+					<count count-type="total" unit="character">294</count>  
+				</count-group>  
+			</group>  
+			<trans-unit id="#1">  
+				<source>Traditional localisation business models dominate today's approach to localisation. </source>  					<target/>  
+			</trans-unit>  
+			<trans-unit id="#2">  
+				<source> Translation agencies distribute work to translators, and work is completed on a cost per word or hour. </source>  
+				<target/> 
+			</trans-unit>  
+			<trans-unit id="#3">  
+				<source> </source>  
+				<target/>  
+			</trans-unit>  
+			<trans-unit id="#4">  
+				<source>  </source>  
+				<target/>  
+			</trans-unit>  
+			<trans-unit id="#5">  
+				<source> Translation is one strand to localising the world's content to communicate across linguistic boundaries. </source>  
+				<target/>  
+			</trans-unit>  
+			<trans-unit id="#6">  
+				<source>  </source>  
+				<target/>  
+			</trans-unit>  
+		</body>  
+	</file> 
+</xliff>

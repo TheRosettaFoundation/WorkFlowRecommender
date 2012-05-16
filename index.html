@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Workflow Recommender </title>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#temp").load("fetcher.php");
+var refreshId = setInterval(function() {
+$("#temp").load("fetcher.php");
+}, 10000);
+});
+</script>
+</head><body>
+<div id="temp"></div>
+</body></html>
