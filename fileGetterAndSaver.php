@@ -1,6 +1,6 @@
 <?php
 
-require_once 'HTTP\Request2.php'; // uses Pear
+require_once 'HTTP/Request2.php'; // uses Pear
 //get the array of job ids and unserialize it
 $jobs = unserialize($_POST['jobs']);
 require_once 'globalVariables.php'; 

@@ -1,7 +1,7 @@
 <?php
  
 
-   require_once 'HTTP\Request2.php'; //uses PEAR
+   require_once 'HTTP/Request2.php'; //uses PEAR
 require_once 'globalVariables.php'; 
 $jobs = unserialize($_POST['jobs']);
 
@@ -138,7 +138,7 @@ if ($searchNodes->length==0) {
 				//and there is workflow info, hence, send it to the CMG
 				//using adder3 that simply adds the phase and sends it back to 
 				//outputter			
-				require_once 'HTTP\Request2.php'; // uses Pear
+				require_once 'HTTP/Request2.php'; // uses Pear
 				$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder3.php');
 				$request->setMethod(HTTP_Request2::METHOD_POST)
 				->addPostParameter('id', $id);
@@ -155,7 +155,7 @@ if ($searchNodes->length==0) {
 
 $pmui = array("p_client"=>$p_client);
 $pmui = serialize($pmui);
-require_once 'HTTP\Request2.php'; // uses Pear
+require_once 'HTTP/Request2.php'; // uses Pear
 $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder2.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('pmui', $pmui)
@@ -252,7 +252,7 @@ if ($countNodes->length==0) {
 //SEND TO ADDER2 THAT ADDS ,THE WORKFLOW INFO FOR THE PREPARATION PHASE AND STOP THIS SCRIPT
 $pmui = array("p_client"=>$p_client);
 $pmui = serialize($pmui);
-require_once 'HTTP\Request2.php'; // uses Pear
+require_once 'HTTP/Request2.php'; // uses Pear
 $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder2.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('pmui', $pmui)
@@ -287,7 +287,7 @@ $pmui = array("LMCresource"=>$LMCresource, "p_client"=>$p_client, "p_cat"=>$p_ca
 //send to adder to Add tasks according to metadata
 
 $pmui = serialize($pmui);
-require_once 'HTTP\Request2.php'; // uses Pear
+require_once 'HTTP/Request2.php'; // uses Pear
 $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('pmui', $pmui)

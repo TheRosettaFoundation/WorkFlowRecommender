@@ -3,7 +3,7 @@
 
 header ("Content-Type:text/html; charset=utf-8");
 $locconnect = "http://10.100.13.155/locConnect/";
-require_once 'HTTP\Request2.php'; // uses Pear
+require_once 'HTTP/Request2.php'; // uses Pear
 require_once 'globalVariables.php'; 
 $request = new HTTP_Request2($locconnect.'fetch_job.php?com=WFR');
    $request->setMethod(HTTP_Request2::METHOD_GET);

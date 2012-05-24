@@ -6,7 +6,7 @@ $filename = $localFolder . $id . '.xlf';
 $data = file_get_contents($filename);
 
 header ("Content-Type:text/xml");
-require_once 'HTTP\Request2.php'; //uses PEAR
+require_once 'HTTP/Request2.php'; //uses PEAR
 
 $request = new HTTP_Request2($locconnect.'send_output.php');
 

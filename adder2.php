@@ -1,6 +1,6 @@
 <?php
 require_once 'globalVariables.php'; 
-require_once 'HTTP\Request2.php'; //uses PEAR
+require_once 'HTTP/Request2.php'; //uses PEAR
 $pmui = unserialize($_POST['pmui']);
 $id = $_POST['id'];
 

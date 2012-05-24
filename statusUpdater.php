@@ -1,5 +1,5 @@
 <?php
-require_once 'HTTP\Request2.php'; //uses PEAR
+require_once 'HTTP/Request2.php'; //uses PEAR
 require_once 'globalVariables.php'; 
 
 
