@@ -93,9 +93,86 @@ $request->send();
 
 
 
-//CHECK IF THE FILE HAS GONE THROUGH THE LKR
 
-//
+
+
+
+
+//CHECK IF THERE IS EXISTING WORKFLOW INFORMATION AND
+//AND THE FILE HAS NOT GONE TRHOUGH WFR YET, IF IT IS 
+//SO, THE FILE HAS TO BE SENT TO CMG
+$searchNodes = $xmlDoc->getElementsByTagName( "workflow" ); 
+
+//If there is no WORKFLOW 
+if ($searchNodes->length==0) {
+//If there is no workflow do nothing
+//print "THERE IS NO WORKFLOW";
+	}else{
+	//print "THERE IS WORKFLOW";
+ //This happens when THERE IS WORKFLOW info, check if the files has NOT gone 
+ //through the WFR, if there is a phase that has the attribute
+// tood id with the value WFR, then do Nothing 
+	$searchNodes = $xmlDoc->getElementsByTagName( "phase" );
+	if ($searchNodes->length==0) {
+		//CHECK IF THERE IS NO PHASE IF IT IS SO
+		// SEND ERROR MESSAGE TO FEEDBACKER
+		$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+		$url = $request->getUrl();        
+		$url->setQueryVariable('id', $id);         // set job id here
+		$url->setQueryVariable('msg', 'THERE IS WORKFLOW INFORMATINO FROM AN UNKNOWN SOURCE');         // set status id here
+		$request->send();
+		print "Job $id failed. Check feedback for more information. <br />";
+		exit();
+		
+		}else{
+		//this happens if there is workflow and phase elements
+			foreach( $searchNodes as $searchNode ) { 
+				$toolid = $searchNode->getAttribute('tool-id'); 
+				if ($toolid == "WFR"){
+				//print "THERE IS WORKFLOW AND THE FILE HAS BEEN THROUGH THE WFR";
+				//This happens if the file has been through the workflow
+				break;
+				}else{
+				//this happens if the file has not been through the WFR
+				//print "THERE IS WORKFLOW INFO BUT NO WRF";
+				//and there is workflow info, hence, send it to the CMG
+				//using adder3 that simply adds the phase and sends it back to 
+				//outputter			
+				require_once 'HTTP\Request2.php'; // uses Pear
+				$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder3.php');
+				$request->setMethod(HTTP_Request2::METHOD_POST)
+				->addPostParameter('id', $id);
+				$melons=$request->send()->getBody();
+				print "<br /><br />  parser done <br /><br /> ";  
+				print $melons;
+				print "The file contained a custom workflow and has been sent back as it is.<br /> ";
+				exit();
+				}
+			}
+		}
+	}
+
+
+$pmui = array("p_client"=>$p_client);
+$pmui = serialize($pmui);
+require_once 'HTTP\Request2.php'; // uses Pear
+$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder2.php');
+$request->setMethod(HTTP_Request2::METHOD_POST)
+    ->addPostParameter('pmui', $pmui)
+    ->addPostParameter('id', $id);
+$melons=$request->send()->getBody();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,10 +245,11 @@ print "The cathegory is $p_cat <br /> ";
 // END CATEGORY STUFF
 
 
-$countNodes = $xmlDoc->getElementsByTagName("phase"); 
+$countNodes = $xmlDoc->getElementsByTagName("phase-group"); 
 if ($countNodes->length==0) { 
-//IF THIS HAPPENS IT IS BECAUSE THERE IS NO PHASE ELEMENT YET 
-//SEND TO ADDER2 THAT ADDS THE WORKFLOW INFO FOR THE PREPARATION PHASE AND STOP THIS SCRIPT
+//IF THIS HAPPENS IT IS BECAUSE THERE IS NO PHASE GROUP ELEMENT YET
+//WHICH MEANS THAT THE FILE HAS NOT GONE THROUGH ANY COMPONENT YET
+//SEND TO ADDER2 THAT ADDS ,THE WORKFLOW INFO FOR THE PREPARATION PHASE AND STOP THIS SCRIPT
 $pmui = array("p_client"=>$p_client);
 $pmui = serialize($pmui);
 require_once 'HTTP\Request2.php'; // uses Pear
@@ -182,7 +260,7 @@ $request->setMethod(HTTP_Request2::METHOD_POST)
 $melons=$request->send()->getBody();
 print "<br /><br />  parser done <br /><br /> ";  
 print $melons;
-print "THE FILE WAS SENT FOR PREPARATION<br /> ";
+print "THE FILE WAS SENT FOR PREPARATION TESTING<br /> ";
 exit();
 //END SEND TO ADDER2 THAT ADDS THE WORKFLOW INFO FOR THE PREPARATION STAGE
 

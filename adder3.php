@@ -1,7 +1,6 @@
 <?php
 require_once 'globalVariables.php'; 
 require_once 'HTTP\Request2.php'; //uses PEAR
-$pmui = unserialize($_POST['pmui']);
 $id = $_POST['id'];
 
 //var_dump($pmui);
@@ -15,50 +14,6 @@ $atorder = "order";
 $torder = "1";
 $placeInArr = "1";
 
-
-
-//PREPARATION STAGE, check client, if client Symantec, use DDC, otherwise move on. If use 
-// DDC call LKR and then WRF again.
-
-// Do we include the DDC task?
-
-// IF client is not symantec, do nothing, else add DDC to the array.
-if (strtolower($pmui['p_client']) != "symantec"){
-		unset($pmui['p_client']);
-		//print "Deleted CATEGORY for {$id} </br>"; // This removes the element from the array PROBLEM	
-} else {
-	$pmui['p_client'] = "DDC";
-	$pmui[$placeInArr] = $pmui['p_client'];
-	$placeInArr++;
-	unset($pmui['p_client']);
-}
-//END OF Do we include the DDC task?
-
-
-
-
-// We always include the LKR 
-
-	$pmui[$placeInArr] = "LKR";
-	$placeInArr++;
-
-
-// END We always include the LKR
-
-
-
-
-// We always include the WFR for TRANSFORMATION 
-
-	$pmui[$placeInArr] = "WFR";
-	$placeInArr++;
-
-// END We always include the WFR for TRANSFORMATION 
-
-
-ksort($pmui);
-
-
 	
 //GET THE DOCUMENT LOAD IT PREPARE TO WRITE ON IT
 
@@ -67,71 +22,13 @@ ksort($pmui);
  $xpath = new DOMXPath($doc);
 
  
- $form = "form";
- $type = "text";
- $tasklistf = "";
- 
-$headers = $doc->getElementsByTagName( 'header' );	
-	$text= "/n";
-foreach( $headers as $header )
-{
-
-
-$reference = $doc->createElement("reference");
-    $header->appendChild($reference);
-    
-    $ifile = $doc->createElement("internal-file");
-    $reference->appendChild($ifile);
-    $ifile->setAttribute($form, $type);
-    
-    $wf = $doc->createElement("workflow");
-    $ifile->appendChild($wf);
-    
-    foreach ($pmui as $value) {
-    $ltask = $doc->createElement("task");
-    $wf->appendChild($ltask);
-    $ifile->setAttribute($form, $type);
-   
-    
-    $ltask->setAttribute($atname, $value);
-    $ltask->setAttribute($atorder, $torder);
-    //Create check to see if a comma or a full stop is needed. Coom
-    // becomes . if the order number is equal to the lengh of the 
-    //array pmui (count($pmui)) otherwise, it is comma
-    $comm = ($torder == (count($pmui))) ? '.' : ', ';
-    $torder++;
-    $tasklist = $value;
-    $tasklistf = $tasklistf . $tasklist . $comm;
-     }
-    
-
-}
-
-// CHECK if there is a phase-group if not, add it
-$xmlDoc = new DOMDocument(); 
-$xmlDoc->load( $localFolder . $id . '.xlf' ); 
-$countNodes = $xmlDoc->getElementsByTagName("phase-group"); 
-if ($countNodes->length==0) { 
-  // add a phase group inside the header
-   print "No phase group";
-   $heads = $doc->getElementsByTagName('header');
-  foreach($heads as $head)
-	{
-   $root_child=$doc->createElement('phase-group');
-	$head ->appendChild($root_child);
-	 print "PHASE group added";
-	}
-} Else {
-	//There is a phase-group and nothing hapens
-	print "YAY phase group";
-}
 
 //PHASE STUFF FROM NAOTO
 
 
 $phasegroups = $doc->getElementsByTagName('phase-group');	
 $toolid='WFR';
-$phasename='WF-Recommendation-Preparation';
+$phasename='WF-Custom-Workflow-Detected';
 	
 	foreach($phasegroups as $phasegroup)
 	{
@@ -186,7 +83,7 @@ $doc->save($localFolder . $id .'.xlf');
 
 //print "yo ";
 
-$msg = "The workflow recommender has added ". ($torder - 1) . " task(s): " . $tasklistf  ;
+$msg = "The workflow recommender found a custom workflow and did not add any additional workflow information: " ; 
  $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
  $url = $request->getUrl();        
  $url->setQueryVariable('id', $id);         // set job id here

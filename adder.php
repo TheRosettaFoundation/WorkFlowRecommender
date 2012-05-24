@@ -7,13 +7,6 @@ $id = $_POST['id'];
 //var_dump($pmui);
 
 
-
-
-
-
-
-
-
 $atname = "tool-id";
 $tname = "translation";
 
@@ -156,6 +149,13 @@ unset($pmui['p_qrequirement']);
 //END OF Do we include the GS task?	
 
 
+//we always include the  CMP task?
+
+		$pmui[$placeInArr] = "CMP";
+		$placeInArr++;
+	
+//END OF we always include the CMP task	
+
 
 
 //unset($pmui['words']);
@@ -175,19 +175,20 @@ ksort($pmui);
  $xpath = new DOMXPath($doc);
 
  
-$melons = $doc->getElementsByTagName( 'task' );	
+
+ $melons = $doc->getElementsByTagName( 'task' );	
 	$text= "/n";
 	$torder= $melons->length;
 	$torder++;
+	//$torder++;
 	print "THE TASK COUNT IS {$torder}";
- 
 // DELETE DELETE OLD WF 
 
-//$domNodeList = $doc->getElementsByTagname('workflow'); 
-//foreach ( $domNodeList as $domElement ) { 
+$domNodeList = $doc->getElementsByTagname('workflow'); 
+foreach ( $domNodeList as $domElement ) { 
   //  ...do stuff with $domElement... 
- // $domElement->parentNode->removeChild($domElement); 
-//  }
+  $domElement->parentNode->removeChild($domElement); 
+  }
   
  // END OF DELETE OLD WF 
  
@@ -197,22 +198,31 @@ $melons = $doc->getElementsByTagName( 'task' );
  $type = "text";
  $tasklistf = "";
  
- 
- 
- 
-$workflows = $doc->getElementsByTagName( 'workflow' );	
+$headers = $doc->getElementsByTagName( 'header' );	
 	$text= "/n";
-foreach( $workflows as $workflow )
-{    
-    foreach ($pmui as $value) {
-		$ltask = $doc->createElement("task");
-		$workflow->appendChild($ltask);
-   
-		$ltask->setAttribute($atname, $value);
-		$ltask->setAttribute($atorder, $torder);
+foreach( $headers as $header )
+{
+
+
+$reference = $doc->createElement("reference");
+    $header->appendChild($reference);
     
-	
-	//Create check to see if a comma or a full stop is needed. Coom
+    $ifile = $doc->createElement("internal-file");
+    $reference->appendChild($ifile);
+    $ifile->setAttribute($form, $type);
+    
+    $wf = $doc->createElement("workflow");
+    $ifile->appendChild($wf);
+    
+    foreach ($pmui as $value) {
+    $ltask = $doc->createElement("task");
+    $wf->appendChild($ltask);
+    $ifile->setAttribute($form, $type);
+   
+    
+    $ltask->setAttribute($atname, $value);
+    $ltask->setAttribute($atorder, $torder);
+    //Create check to see if a comma or a full stop is needed. Coom
     // becomes . if the order number is equal to the lengh of the 
     //array pmui (count($pmui)) otherwise, it is comma
     $comm = ($torder == (count($pmui))) ? '.' : ', ';
@@ -225,6 +235,32 @@ foreach( $workflows as $workflow )
 }
 //PHASE STUFF FROM NAOTO
 
+
+   print "JUST BEFORE THE PHASE GROUP CHECK";
+// CHECK if there is a phase-group if not, add it
+
+$countNodes = $doc->getElementsByTagName('phase-group'); 
+if ($countNodes->length==0) { 
+  // add a phase group inside the header
+  print "No phase group";
+  $heads= $doc->getElementsByTagName('header');	
+   $root_child=$doc->createElement('phase-group');
+	$heads ->appendChild($root_child);
+} Else {
+	//There is a phase-group and nothing hapens
+	print "YAY phase group";
+}
+
+
+
+
+
+
+
+
+
+
+//Add check, if there is no phase group, must add it.
 
 $phasegroups = $doc->getElementsByTagName('phase-group');	
 $toolid='WF';
