@@ -1,8 +1,5 @@
 <?php
-
-$this_url = "http://loc.csisdmz.ul.ie/wfr/"; 
-
-   require_once 'HTTP/Request2.php'; //uses PEAR
+require_once 'HTTP/Request2.php'; //uses PEAR
 require_once 'globalVariables.php'; 
 $jobs = unserialize($_POST['jobs']);
 
@@ -32,7 +29,7 @@ if ($countNodes->length==0) {
 $countNodes = $xmlDoc->getElementsByTagName("count"); 
 if ($countNodes->length==0) { 
    //print "THERE IS NO COUNT in job $id <br />";
-   $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+   $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
 	$url = $request->getUrl();        
 	$url->setQueryVariable('id', $id);         // set job id here
 	$url->setQueryVariable('msg', 'There was no count element of any kind ');         // set status id here
@@ -56,7 +53,7 @@ foreach ( $countNodes as $countNode )  {
 	
 	case 'segment': 
 	print "<br />In project $id, there is a \"segment\" count. This system only uses word counts<br />";
-	 $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+	 $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here
 $url->setQueryVariable('msg', 'There is a \"segment\" count. This system only uses word counts');         // set status id here
@@ -67,7 +64,7 @@ $request->send();
 	
 	case 'character': 
 	//print "<br />In project $id, there is a \"character\" count. This system only uses word counts<br />";
-	 $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+	 $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here
 $url->setQueryVariable('msg', 'There is a \"character\" count. This system only uses word counts');         // set status id here
@@ -77,7 +74,7 @@ $request->send();
 	
 	default: 
 	//print "In project $id, there is no word count element";
-		 $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+		 $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here
 $url->setQueryVariable('msg', 'There is no word count element');         // set status id here
@@ -117,7 +114,7 @@ if ($searchNodes->length==0) {
 	if ($searchNodes->length==0) {
 		//CHECK IF THERE IS NO PHASE IF IT IS SO
 		// SEND ERROR MESSAGE TO FEEDBACKER
-		$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+		$request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
 		$url = $request->getUrl();        
 		$url->setQueryVariable('id', $id);         // set job id here
 		$url->setQueryVariable('msg', 'THERE IS WORKFLOW INFORMATINO FROM AN UNKNOWN SOURCE');         // set status id here
@@ -157,7 +154,7 @@ if ($searchNodes->length==0) {
 $pmui = array("p_client"=>$p_client);
 $pmui = serialize($pmui);
 require_once 'HTTP/Request2.php'; // uses Pear
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder2.php');
+$request = new HTTP_Request2($this_url.'adder2.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('pmui', $pmui)
     ->addPostParameter('id', $id);
@@ -184,7 +181,7 @@ $searchNodes = $xmlDoc->getElementsByTagName( "pmui-data" );
 //If there is no PMUI DATA send feedback using feedbacker
 if ($searchNodes->length==0) { 
    //print "THERE IS NO PMUI DATA in job $id <br /> ";
-    $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+    $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here
 $url->setQueryVariable('msg', 'THERE IS NO PMUI DATA in job');         // set status id here
@@ -254,7 +251,7 @@ if ($countNodes->length==0) {
 $pmui = array("p_client"=>$p_client);
 $pmui = serialize($pmui);
 require_once 'HTTP/Request2.php'; // uses Pear
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder2.php');
+$request = new HTTP_Request2($this_url.'adder2.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('pmui', $pmui)
     ->addPostParameter('id', $id);
@@ -289,7 +286,7 @@ $pmui = array("LMCresource"=>$LMCresource, "p_client"=>$p_client, "p_cat"=>$p_ca
 
 $pmui = serialize($pmui);
 require_once 'HTTP/Request2.php'; // uses Pear
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder.php');
+$request = new HTTP_Request2($this_url.'adder.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('pmui', $pmui)
     ->addPostParameter('id', $id);

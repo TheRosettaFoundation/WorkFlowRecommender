@@ -318,7 +318,7 @@ $doc->save($localFolder . $id .'.xlf');
 //print "yo ";
 
 $msg = "The workflow recommender has added ". ($torder - 1) . " task(s): " . $tasklistf  ;
- $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+ $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
  $url = $request->getUrl();        
  $url->setQueryVariable('id', $id);         // set job id here
  $url->setQueryVariable('msg', $msg);         // set status id here
@@ -326,7 +326,7 @@ $msg = "The workflow recommender has added ". ($torder - 1) . " task(s): " . $ta
 
 
 
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/outputer.php', HTTP_Request2::METHOD_GET);
+$request = new HTTP_Request2($this_url.'outputer.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here    
 $melons=$request->send()->getBody();
