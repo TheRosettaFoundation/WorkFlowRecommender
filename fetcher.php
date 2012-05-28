@@ -2,7 +2,11 @@
 
 
 header ("Content-Type:text/html; charset=utf-8");
-$locconnect = "http://10.100.13.155/locConnect/";
+
+#$locconnect = "http://10.100.13.155/locConnect/";
+$locconnect = "http://193.1.97.50/locconnect/";
+$this_url = "http://loc.csisdmz.ul.ie/wfr/";
+
 require_once 'HTTP/Request2.php'; // uses Pear
 require_once 'globalVariables.php'; 
 $request = new HTTP_Request2($locconnect.'fetch_job.php?com=WFR');
@@ -35,7 +39,7 @@ $sarr = serialize($arr);
 
 
 
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/fileGetterAndSaver.php');
+$request = new HTTP_Request2($this_url . '/fileGetterAndSaver.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('jobs', $sarr);
 

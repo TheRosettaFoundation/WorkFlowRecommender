@@ -1,5 +1,6 @@
 <?php
- 
+
+$this_url = "http://loc.csisdmz.ul.ie/wfr/"; 
 
    require_once 'HTTP/Request2.php'; //uses PEAR
 require_once 'globalVariables.php'; 
@@ -139,7 +140,7 @@ if ($searchNodes->length==0) {
 				//using adder3 that simply adds the phase and sends it back to 
 				//outputter			
 				require_once 'HTTP/Request2.php'; // uses Pear
-				$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/adder3.php');
+				$request = new HTTP_Request2($this_url.'/adder3.php');
 				$request->setMethod(HTTP_Request2::METHOD_POST)
 				->addPostParameter('id', $id);
 				$melons=$request->send()->getBody();

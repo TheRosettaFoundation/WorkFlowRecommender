@@ -6,7 +6,6 @@ $id = $_POST['id'];
 
 //var_dump($pmui);
 
-
 $atname = "tool-id";
 $tname = "translation";
 
@@ -16,7 +15,6 @@ $placeInArr = "1";
 
 unset($pmui['p_name']);
 unset($pmui['p_descrip']);
-
 
 //PREPARATION STAGE, check client, if client Symantec, use DDC, otherwise move on. If use 
 // DDC call WRF again, this time cat info should be in place

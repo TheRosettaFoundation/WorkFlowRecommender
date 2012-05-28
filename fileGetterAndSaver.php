@@ -1,5 +1,7 @@
 <?php
 
+$this_url = "http://loc.csisdmz.ul.ie/wfr/";
+
 require_once 'HTTP/Request2.php'; // uses Pear
 //get the array of job ids and unserialize it
 $jobs = unserialize($_POST['jobs']);
@@ -26,7 +28,7 @@ foreach($jobs as $id) {
     
     
     
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/statusUpdater.php', HTTP_Request2::METHOD_GET);
+$request = new HTTP_Request2($this_url.'/statusUpdater.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here
 $url->setQueryVariable('msg', 'processing');         // set status id here
@@ -41,7 +43,7 @@ print "Processing job $id. <br />";
 
 $jobs= serialize($jobs);
 
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/parse5.php');
+$request = new HTTP_Request2($this_url.'/parse5.php');
 $request->setMethod(HTTP_Request2::METHOD_POST)
     ->addPostParameter('jobs', $jobs);
 $melon=$request->send()->getBody();
