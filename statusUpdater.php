@@ -14,7 +14,10 @@ $url->setQueryVariable('msg', 'pending');*/
 /*
 $url->setQueryVariable('id', "3971bc5a94");  // complete
 $url->setQueryVariable('msg', 'pending');    */
-$request->send();
+$result = $request->send();
+if($result->getStatus() != 200) {
+    print "ERROR: send failed - ".$result->getStatus().": ".$result->getReasonPhrase();
+}
 
 
 

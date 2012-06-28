@@ -28,13 +28,17 @@ try {
 }	
 
    
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/statusUpdater.php', HTTP_Request2::METHOD_GET);
+$request = new HTTP_Request2($this_url.'statusUpdater.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here
 $url->setQueryVariable('msg', 'complete');         // set status id here
     
-$request->send();
-print "Job $id successfully processed. <br />";
+$result = $request->send();
+if($result->getStatus() != 200) {
+    print "ERROR: Send failed - ".$result->getStatus().": ".$result->getReasonPhrase();
+}
+
+
 unlink($filename);
 ?>
 

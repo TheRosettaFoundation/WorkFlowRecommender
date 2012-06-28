@@ -88,7 +88,10 @@ $msg = "The workflow recommender found a custom workflow and did not add any add
  $url = $request->getUrl();        
  $url->setQueryVariable('id', $id);         // set job id here
  $url->setQueryVariable('msg', $msg);         // set status id here
- $request->send();
+$result = $request->send();
+if($result->getStatus() != 200) {
+    print "ERROR: send failed - ".$result->getStatus().": ".$result->getReasonPhrase();
+}
 
 
 
@@ -97,10 +100,12 @@ $msg = "The workflow recommender found a custom workflow and did not add any add
 $request = new HTTP_Request2($this_url.'outputer.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here    
-$melons=$request->send()->getBody();
-
-//print "<br /><br />  parser done <br /><br /> ";  
-print $melons;
+$result=$request->send();
+if($result->getStatus() == 200) {
+    print $result->getBody();
+} else {
+    print "ERROR: Send failed - ".$result->getStatus().": ".$result->getReasonPhrase();
+}
 
 ?>
 
