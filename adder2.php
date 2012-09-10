@@ -59,13 +59,14 @@ if (strtolower($pmui['p_client']) != "symantec"){
 ksort($pmui);
 
 
+
 	
 //GET THE DOCUMENT LOAD IT PREPARE TO WRITE ON IT
 
  $doc = new DOMDocument();
  $doc->load( $localFolder .$id .'.xlf' );	
  $xpath = new DOMXPath($doc);
-
+ 
  
  $form = "form";
  $type = "text";
@@ -164,7 +165,7 @@ $phasename='WF-Recommendation-Preparation';
 	$root_text = $doc->createTextNode('aram.morera-mesa@ul.ie');
    	$root_attr5 ->appendChild($root_text); 
    	
-    $root_attr6 = $doc->createAttribute('tool-id');
+        $root_attr6 = $doc->createAttribute('tool-id');
    	$root_child->appendChild($root_attr6);
 	$root_text = $doc->createTextNode($toolid);
    	$root_attr6 ->appendChild($root_text); 
@@ -187,7 +188,7 @@ $doc->save($localFolder . $id .'.xlf');
 //print "yo ";
 
 $msg = "The workflow recommender has added ". ($torder - 1) . " task(s): " . $tasklistf  ;
- $request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/feedbacker.php', HTTP_Request2::METHOD_GET);
+ $request = new HTTP_Request2($this_url.'/feedbacker.php', HTTP_Request2::METHOD_GET);
  $url = $request->getUrl();        
  $url->setQueryVariable('id', $id);         // set job id here
  $url->setQueryVariable('msg', $msg);         // set status id here
@@ -197,7 +198,7 @@ $msg = "The workflow recommender has added ". ($torder - 1) . " task(s): " . $ta
 
 
 
-$request = new HTTP_Request2('http://'.$_SERVER['HTTP_HOST'].'/outputer.php', HTTP_Request2::METHOD_GET);
+$request = new HTTP_Request2($this_url.'/outputer.php', HTTP_Request2::METHOD_GET);
 $url = $request->getUrl();        
 $url->setQueryVariable('id', $id);         // set job id here    
 $melons=$request->send()->getBody();

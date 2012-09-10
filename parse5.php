@@ -53,36 +53,36 @@ foreach ( $countNodes as $countNode )  {
 	
 	case 'segment': 
 	print "<br />In project $id, there is a \"segment\" count. This system only uses word counts<br />";
-	 $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
-$url = $request->getUrl();        
-$url->setQueryVariable('id', $id);         // set job id here
-$url->setQueryVariable('msg', 'There is a \"segment\" count. This system only uses word counts');         // set status id here
+	$request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
+        $url = $request->getUrl();        
+        $url->setQueryVariable('id', $id);         // set job id here
+        $url->setQueryVariable('msg', 'There is a \"segment\" count. This system only uses word counts');         // set status id here
     
-$request->send();
+        $request->send();
 	
 	break;
 	
 	case 'character': 
 	//print "<br />In project $id, there is a \"character\" count. This system only uses word counts<br />";
-	 $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
-$url = $request->getUrl();        
-$url->setQueryVariable('id', $id);         // set job id here
-$url->setQueryVariable('msg', 'There is a \"character\" count. This system only uses word counts');         // set status id here
+        $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
+        $url = $request->getUrl();        
+        $url->setQueryVariable('id', $id);         // set job id here
+        $url->setQueryVariable('msg', 'There is a \"character\" count. This system only uses word counts');         // set status id here
     
-$request->send();
+        $request->send();
 	break;
 	
 	default: 
 	//print "In project $id, there is no word count element";
 		 $request = new HTTP_Request2($this_url.'feedbacker.php', HTTP_Request2::METHOD_GET);
-$url = $request->getUrl();        
-$url->setQueryVariable('id', $id);         // set job id here
-$url->setQueryVariable('msg', 'There is no word count element');         // set status id here
-    $request->send();
-$request->send();
+        $url = $request->getUrl();        
+        $url->setQueryVariable('id', $id);         // set job id here
+        $url->setQueryVariable('msg', 'There is no word count element');         // set status id here
+        $request->send();
+        $request->send();
 	break;
 	
-}
+    }
 }
    
 */   
@@ -148,17 +148,15 @@ if ($searchNodes->length==0) {
 				}
 			}
 		}
+                $pmui = array("p_client"=>$p_client);
+                $pmui = serialize($pmui);
+                require_once 'HTTP/Request2.php'; // uses Pear
+                $request = new HTTP_Request2($this_url.'adder2.php');
+                $request->setMethod(HTTP_Request2::METHOD_POST)
+                    ->addPostParameter('pmui', $pmui)
+                    ->addPostParameter('id', $id);
+                $melons=$request->send()->getBody();
 	}
-
-
-$pmui = array("p_client"=>$p_client);
-$pmui = serialize($pmui);
-require_once 'HTTP/Request2.php'; // uses Pear
-$request = new HTTP_Request2($this_url.'adder2.php');
-$request->setMethod(HTTP_Request2::METHOD_POST)
-    ->addPostParameter('pmui', $pmui)
-    ->addPostParameter('id', $id);
-$melons=$request->send()->getBody();
 
 
 
@@ -199,12 +197,12 @@ foreach( $searchNodes as $searchNode )
 	
 	$p_name = $searchNode->getAttribute('pname'); 
 	$p_descrip = $searchNode->getAttribute('pdescription'); 
-    $p_startdate = $searchNode->getAttribute('startdate'); 
-    $p_deadline = $searchNode->getAttribute('deadline'); 
-    $p_budget = $searchNode->getAttribute('budget'); 
-    $p_qrequirement = $searchNode->getAttribute('qrequirement'); 
+        $p_startdate = $searchNode->getAttribute('startdate'); 
+        $p_deadline = $searchNode->getAttribute('deadline'); 
+        $p_budget = $searchNode->getAttribute('budget'); 
+        $p_qrequirement = $searchNode->getAttribute('qrequirement'); 
 	$p_client = $searchNode->getAttribute('client');
-    $p_useRating = $searchNode->getAttribute('use-rating'); 
+        $p_useRating = $searchNode->getAttribute('use-rating'); 
 	$p_useMt = $searchNode->getAttribute('use-mt'); 
     
 } 
